@@ -10,7 +10,7 @@ El conjunto de datos consta de 10,000 registros de ventas de una cafetería con 
 
 ## Algoritmo
 1. **Carga de la base de datos e inspección:** Análisis de la información (tipos de datos (`df.info()`), números de registros, distribución de nulos).
-2. **Estandarización de datos:** Conversión variables a tipos 'Int', 'Float' y 'Datetime'; y conversión de valores como "ERROR", "UNKNOWN" y "None" a `NaN` (df.replance(..., pd.NA)). 
+2. **Estandarización de datos:** Conversión variables a tipos `Int`, `Floa`' y `Datetime`; y conversión de valores como "ERROR", "UNKNOWN" y "None" a `NaN` (df.replance(..., pd.NA)). 
 3. **Imputación numérica:** Recálculo exacto entre `Quantity`, `Price Per Unit` y `Total Spent`.
 4. **Rellenar espacios en blanco y eliminar datos duplicados:** Detección de valores NaN y remplazo por una nueva categoría "UNKNOWN" (df.fillna()); verificación de valores duplicados, para este caso no existían registros dobles.
 5. **Eliminar valores nulos:** Remoción de valores nulos mediante df.dropna().
