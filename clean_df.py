@@ -5,16 +5,19 @@ import pandas as pd
 #1. Carga y visualización de datos
 df=pd.read_csv('data/dirty_cafe_sales.csv')
 print("-----BASE DE DATOS INICIAL----\n")
+print( df.head())
+
 print("Filas iniciles:", len(df))
 print("Columnas:", len(df.columns))
 
-print("\nValores nulos iniciales:")
-print(df.isnull().sum())
+print("\nValores nulos iniciales: ", df.isnull().sum())
 
-print("\nTipos de datos identificados:")
-print(df.dtypes)
+print("\nTipos de datos identificados:\n", df.dtypes)
 
-print("\n", df.head())
+print("\nValores duplicados encontrados: ", df.duplicated().sum())
+
+print("\n\n", df.info())
+
 #2.Estandarizar tipos de datos
 variables_str = [
     "Transaction ID",
@@ -28,7 +31,7 @@ for variable in variables_str:
 
 df["Quantity"] = pd.to_numeric(
     df["Quantity"],
-    errors="coerce"
+    errors="coerce" # -> Remplaza errores por NaN
 )
 
 df["Price Per Unit"] = pd.to_numeric(
@@ -51,8 +54,7 @@ valores_invalidos = ["UNKNOWN", "ERROR", "unknown", "error", ""]
 
 df.replace(valores_invalidos, pd.NA, inplace=True)
 
-#4. Eliminar datos duplicados
-print("\nDuplicados encontrados:", df.duplicated().sum())
+#4. Eliminar datos duplicados en caso de que existan
 df = df.drop_duplicates()
 
 #5. Rellenar espacios vacios
@@ -92,43 +94,20 @@ df["Price Per Unit"] = df["Price Per Unit"].astype(float)
 df["Total Spent"] = df["Total Spent"].astype(float)
 
 #11. Guardamos los cambios en la base y exportamos
-print("-----BASE DE DATOS LIMPIA----\n")
+print("\n\n-----BASE DE DATOS LIMPIA----\n")
+print(df.head())
+
 print("Filas finales:", len(df))
 print("Columnas:", len(df.columns))
 
-print("\nValores nulos finales:")
-print(df.isnull().sum())
+print("\nValores nulos finales:", df.isnull().sum())
 
-print("\nTipos de datos:")
-print(df.dtypes)
+print("\nTipos de datos:", df.dtypes)
 
-print("\n",df.head())
+print("\nValores duplicados encontrados: ", df.duplicated().sum())
+
+print("\n\n", df.info())
 
 df.to_csv("data/clean_data.csv", index=False)
 
 
-#tabla comparativa
-df_test = df.copy()
-
-df_test["Quantity"] = pd.to_numeric(
-    df_test["Quantity"], errors="coerce"
-)
-
-df_test["Price Per Unit"] = pd.to_numeric(
-    df_test["Price Per Unit"], errors="coerce"
-)
-
-df_test["Total Spent"] = pd.to_numeric(
-    df_test["Total Spent"], errors="coerce"
-)
-
-df_test["Total Calculado"] = (
-    df_test["Quantity"] * df_test["Price Per Unit"]
-)
-
-inconsistencias = (
-    df_test["Total Spent"] != df_test["Total Calculado"]
-)
-
-print("Registros con problemas de exactitud:",
-      inconsistencias.sum())
